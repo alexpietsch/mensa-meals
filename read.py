@@ -36,4 +36,3 @@ if __name__ == "__main__":
         exit(1)
     else:
         print(find_similar(sys.argv[1]))
-
