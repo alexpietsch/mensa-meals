@@ -1,0 +1,6 @@
+pandas
+nltk
+fuzzywuzzy
+sentence_transformers
+scikit-learn
+faiss-cpu

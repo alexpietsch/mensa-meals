@@ -1,0 +1,10 @@
+venv
+__pycache__
+
+# Gen files
+*.csv
+
+# Embedding files
+gerichte_ids.npy
+gerichte.db
+gerichte.index
