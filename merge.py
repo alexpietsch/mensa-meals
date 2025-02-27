@@ -4,7 +4,7 @@ import datetime
 import xml.etree.ElementTree as ET
 
 input_folder = "../mensaArchiv"
-output_file = "merged_speiseplan-test.csv"
+output_file = "merged_speiseplan.csv"
 
 def merge_files():
     start = datetime.datetime.now().replace(microsecond=0)

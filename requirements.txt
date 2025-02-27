@@ -4,3 +4,4 @@ fuzzywuzzy
 sentence_transformers
 scikit-learn
 faiss-cpu
+flask
