@@ -6,11 +6,23 @@ import pandas as pd
 import torch
 from sentence_transformers import SentenceTransformer
 
-model = SentenceTransformer('all-mpnet-base-v2', device="cuda" if torch.cuda.is_available() else "cpu")
+instruction = "Represent the Food meal name:"
+
+# model = SentenceTransformer('all-mpnet-base-v2', device="cuda" if torch.cuda.is_available() else "cpu")
+# read model name from "model.txt"
+model_name = open("model.txt", "r").read()
+model = SentenceTransformer(model_name)
+# model = SentenceTransformer("nomic-ai/nomic-embed-text-v2-moe", trust_remote_code=True)
+
+def encode_embedding(query):
+    eingabe_embedding = model.encode([query]).astype('float32')
+    return eingabe_embedding
 
 def find_similar(query, k=5):
+    eingabe_embedding = encode_embedding(query)
     # Calc query embedding
-    eingabe_embedding = model.encode([query]).astype('float32')
+    # eingabe_embedding = model.encode([query]).astype('float32')
+    print(eingabe_embedding)
 
     # FAISS-Index
     index = faiss.read_index("gerichte.index")
@@ -33,7 +45,7 @@ def find_similar(query, k=5):
 
 def find_similar_with_threshold(query, threshold):
     # Calc query embedding
-    eingabe_embedding = model.encode([query]).astype('float32')
+    eingabe_embedding = encode_embedding(query)
 
     # FAISS-Index
     index = faiss.read_index("gerichte.index")
@@ -50,7 +62,7 @@ def find_similar_with_threshold(query, threshold):
     results = []
     print(threshold)
     for i, distance in zip(ind, D):
-        similarity = 1 - distance  # FAISS returns distances, convert to similarity
+        similarity = 1 - distance
         if similarity >= threshold:
             c.execute("SELECT name FROM gerichte WHERE id = ?", (int(ids[i]),))
             results.append((c.fetchone()[0], float(similarity)))

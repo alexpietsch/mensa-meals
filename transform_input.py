@@ -3,39 +3,28 @@ import nltk
 from nltk.corpus import stopwords as nltk_stopwords
 import datetime
 import re
-import os
-from glob import glob
-import xml.etree.ElementTree as ET
 
 def normalize_and_transform():
     nltk.download('stopwords')
     stopwords = nltk_stopwords.words('german')
     
     start = datetime.datetime.now().replace(microsecond=0)
-    
-    # Merge XML files
-    input_folder = "../mensaArchiv"
-    output_file = "merged_speiseplan.csv"
-    
-    all_titles = []
 
-    filenames = glob(os.path.join(input_folder, "*.xml"))
-    for filename in filenames:
-        try:
-            with open(filename, 'r', encoding='utf-8') as file:
-                tree = ET.parse(file)
-            root = tree.getroot()
-            for title in root.findall(".//title"):
-                title_text = title.text or ""
-                cleaned_title = clean_title(title_text)
-                if cleaned_title:
-                    all_titles.append(cleaned_title)
-                else:
-                    print(f"Invalid characters found: {title_text} in {filename}")
-        except ET.ParseError:
-            print(f"Fehler beim Parsen von {filename}, Datei wird übersprungen.")
+    input_file = "merged_speiseplan.csv"
+    
+    # Read raw titles from merged file
+    with open(input_file, "r", encoding="utf-8") as infile:
+        all_titles = []
+        for line in infile:
+            title_text = line.strip()
+            cleaned_title = clean_title(title_text)
+            if cleaned_title:
+                all_titles.append(cleaned_title)
+            else:
+                print(f"Invalid characters found: {title_text}")
 
-    # Save merged titles
+    # Save cleaned titles
+    output_file = "cleaned_speiseplan.csv"
     with open(output_file, "w", encoding="utf-8") as outfile:
         for title in all_titles:
             outfile.write(f"{title}\n")
