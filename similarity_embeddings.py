@@ -14,9 +14,10 @@ instruction = "Represent the Food meal name:"
 def create_and_save_embeddings():
 
     # model = SentenceTransformer('all-mpnet-base-v2', device="cuda" if torch.cuda.is_available() else "cpu")
-    model_name = open("model.txt", "r").read()
-    model = SentenceTransformer(model_name)
+    # model_name = open("model.txt", "r").read()
+    # model = SentenceTransformer(model_name)
     # model = SentenceTransformer("nomic-ai/nomic-embed-text-v2-moe", trust_remote_code=True)
+    model = SentenceTransformer("mensa_meal_model_finetuned")
     conn = sqlite3.connect("gerichte.db")
     cursor = conn.cursor()
 

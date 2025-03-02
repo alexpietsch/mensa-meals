@@ -3,8 +3,13 @@ __pycache__
 
 # Gen files
 *.csv
+*.pkl
 
 # Embedding files
 gerichte_ids.npy
 gerichte.db
 gerichte.index
+
+# Trained model files
+checkpoints/
+mensa_meal_model_finetuned/

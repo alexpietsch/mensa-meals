@@ -10,9 +10,11 @@ instruction = "Represent the Food meal name:"
 
 # model = SentenceTransformer('all-mpnet-base-v2', device="cuda" if torch.cuda.is_available() else "cpu")
 # read model name from "model.txt"
-model_name = open("model.txt", "r").read()
-model = SentenceTransformer(model_name)
+# model_name = open("model.txt", "r").read()
+# model = SentenceTransformer(model_name)
 # model = SentenceTransformer("nomic-ai/nomic-embed-text-v2-moe", trust_remote_code=True)
+
+model = SentenceTransformer("mensa_meal_model_finetuned")
 
 def encode_embedding(query):
     eingabe_embedding = model.encode([query]).astype('float32')
@@ -43,7 +45,7 @@ def find_similar(query, k=5):
 
     return results
 
-def find_similar_with_threshold(query, threshold):
+def find_similar_with_threshold(query, threshold=0.5):
     # Calc query embedding
     eingabe_embedding = encode_embedding(query)
 
@@ -60,7 +62,6 @@ def find_similar_with_threshold(query, threshold):
     conn = sqlite3.connect("gerichte.db")
     c = conn.cursor()
     results = []
-    print(threshold)
     for i, distance in zip(ind, D):
         similarity = 1 - distance
         if similarity >= threshold:
@@ -70,8 +71,10 @@ def find_similar_with_threshold(query, threshold):
     return results
 
 if __name__ == "__main__":
-    print(sys.argv)
-    if(len(sys.argv) < 2):
+    if(len(sys.argv) < 2 or len(sys.argv) > 3):
+        print("Usage: python read.py <query> [<threshold>]")
         exit(1)
-    else:
+    elif(len(sys.argv) == 2):
+        print(find_similar_with_threshold(sys.argv[1]))
+    elif(len(sys.argv) == 3):
         print(find_similar_with_threshold(sys.argv[1], float(sys.argv[2]) / 100.0 ))
