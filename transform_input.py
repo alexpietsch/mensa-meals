@@ -50,6 +50,18 @@ def normalize_and_transform():
     # Reorder columns
     anzahl_gerichte = anzahl_gerichte[["Anzahl", "Gericht"]]
 
+    # save test csv with meals
+    # alphabetically orderd by "Gericht"
+    anzahl_gerichte_alphabetically = anzahl_gerichte.sort_values(by="Gericht", ascending=True)
+    
+    anzahl_gerichte_alphabetically.to_csv(
+        "gerichte_anzahl-alphabetically-py.csv",
+        index=False,
+        sep=";",
+        quoting=3
+    )
+    
+
     # Save result
     anzahl_gerichte.to_csv(
         "gerichte_anzahl-py-normalized.csv",
@@ -75,3 +87,6 @@ def clean_title(title_text):
     cleaned_title = normalized_pattern.sub("", cleaned_title)
     cleaned_title = re.sub(r"\s+", " ", cleaned_title)
     return cleaned_title.strip()
+
+if __name__ == "__main__":
+    normalize_and_transform()

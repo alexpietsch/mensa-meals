@@ -4,7 +4,7 @@ from training.prepare_training_data import prepare_data
 
 
 def main():
-    calc_meal_similarity()
+    # calc_meal_similarity()
     prepare_data()
     train_model()
 
