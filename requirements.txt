@@ -5,3 +5,5 @@ sentence_transformers
 scikit-learn
 faiss-cpu
 flask
+datasets
+accelerate>=0.26.0

@@ -9,10 +9,15 @@ from sentence_transformers import SentenceTransformer
 from merge import merge_files
 from transform_input import normalize_and_transform
 
+instruction = "Represent the Food meal name:"
 
 def create_and_save_embeddings():
 
-    model = SentenceTransformer('all-mpnet-base-v2', device="cuda" if torch.cuda.is_available() else "cpu")
+    # model = SentenceTransformer('all-mpnet-base-v2', device="cuda" if torch.cuda.is_available() else "cpu")
+    # model_name = open("model.txt", "r").read()
+    # model = SentenceTransformer(model_name)
+    # model = SentenceTransformer("nomic-ai/nomic-embed-text-v2-moe", trust_remote_code=True)
+    model = SentenceTransformer("mensa_meal_model_finetuned")
     conn = sqlite3.connect("gerichte.db")
     cursor = conn.cursor()
 
@@ -20,6 +25,7 @@ def create_and_save_embeddings():
     gerichte_dataframe = pd.read_csv("./gerichte_anzahl-py-normalized.csv", sep=";")
 
     # Calc Embeddings
+    # gerichte_dataframe['Embedding'] = list(model.encode([instruction + name for name in gerichte_dataframe['Gericht'].tolist()]).astype('float32'))
     gerichte_dataframe['Embedding'] = list(model.encode(gerichte_dataframe['Gericht'].tolist()).astype('float32'))
 
     for name in gerichte_dataframe['Gericht']:

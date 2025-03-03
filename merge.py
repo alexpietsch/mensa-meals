@@ -3,7 +3,7 @@ from glob import glob
 import datetime
 import xml.etree.ElementTree as ET
 
-input_folder = "../mensaArchiv"
+input_folder = "../mensa-archiv"
 output_file = "merged_speiseplan.csv"
 
 def merge_files():
