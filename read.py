@@ -71,10 +71,10 @@ def find_similar_with_threshold(query, threshold=0.5):
     return results
 
 if __name__ == "__main__":
-    if(len(sys.argv) < 2 or len(sys.argv) > 3):
-        print("Usage: python read.py <query> [<threshold>]")
-        exit(1)
-    elif(len(sys.argv) == 2):
+    if(len(sys.argv) == 2):
         print(find_similar_with_threshold(sys.argv[1]))
     elif(len(sys.argv) == 3):
         print(find_similar_with_threshold(sys.argv[1], float(sys.argv[2]) / 100.0 ))
+    else:
+        print("Usage: python read.py <query> [<threshold>]")
+        exit(1)
